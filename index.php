@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Default Line Chart</title>
 </head>
+
 <body>
-    <?php include 'nav.php'?>
+    <?php include 'nav.php' ?>
 
     <?php
-$conn = new mysqli('localhost', 'root', '', 'Graphic');
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    $conn = new mysqli('localhost', 'root', '', 'Graphic');
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-$query = $conn->query("
+    $query = $conn->query("
     SELECT MONTHNAME(Month) as Month, SUM(Data) as Data FROM data GROUP BY Month ORDER BY Month
 ");
-$months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-$datas = [];
+    $datas = [];
 
-if ($query) {
-    if ($query->num_rows > 0) {
-        while ($data = $query->fetch_assoc()) {
-            // Removed whitespace to avoid mismatch with comparing MONTHNAME
-            $month = trim($data['Month']);
-            $months[] = $month;
-            $datas[] = (int)$data['Data']; 
+    if ($query) {
+        if ($query->num_rows > 0) {
+            while ($data = $query->fetch_assoc()) {
+                // Removed whitespace to avoid mismatch with comparing MONTHNAME
+                $month = trim($data['Month']);
+                $months[] = $month;
+                $datas[] = (int)$data['Data'];
+            }
+        } else {
+            echo "No data found in the database.";
         }
     } else {
-        echo "No data found in the database.";
+        echo "Query error: " . $conn->error;
     }
-} else {
-    echo "Query error: " . $conn->error;
-}
 
-$conn->close();
-?>
+    $conn->close();
+    ?>
 
-<pre>
+    <pre>
 <?php var_dump($months) ?>
 </pre>
 
@@ -49,8 +51,8 @@ $conn->close();
     <script>
         const ctx = document.getElementById('myChart').getContext('2d');
 
-        const labels = <?php echo json_encode($months)?>;
-        const datas = <?php echo json_encode($datas)?>; 
+        const labels = <?php echo json_encode($months) ?>;
+        const datas = <?php echo json_encode($datas) ?>;
 
         if (labels.length > 0 && datas.length > 0) {
             new Chart(ctx, {
@@ -80,4 +82,5 @@ $conn->close();
         }
     </script>
 </body>
+
 </html>

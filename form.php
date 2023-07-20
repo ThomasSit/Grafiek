@@ -39,7 +39,7 @@
 
         $st->close();
         $conn->close();
-        // header('location:index.php');
+
     }
     ?>
 </body>
