@@ -1,0 +1,13 @@
+CREATE DATABASE graphic;
+
+USE graphic;
+
+
+CREATE TABLE data (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  Month INT text,
+  Data int NOT NULL
+
+);
+
+SELECT MONTHNAME(created) as monthname, SUM(amount) as amount from Trans GROUP BY Monthname;
