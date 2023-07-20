@@ -1,13 +1,24 @@
-CREATE DATABASE graphic;
 
-USE graphic;
+CREATE DATABASE Graphic;
 
+USE Graphic;
 
 CREATE TABLE data (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  Month INT text,
-  Data int NOT NULL
-
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    Month VARCHAR(255),
+    Data INT
 );
 
-SELECT MONTHNAME(created) as monthname, SUM(amount) as amount from Trans GROUP BY Monthname;
+INSERT INTO data (Month, Data) VALUES
+('january', 256),
+('february', 255),
+('march', 247),
+('april', 273),
+('may', 220),
+('june', 228),
+('july', 116),
+('august', 200),
+('september', 294),
+('october', 203),
+('november', 189),
+('december', 133);
